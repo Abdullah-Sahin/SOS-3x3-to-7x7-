@@ -3,7 +3,11 @@ package Score;
 import Player.Player;
 
 public class ScorePrinter {
-
+    /**
+     * writes the scores of players to console
+     * @param player1 player
+     * @param player2 player
+     */
     public static void printScores(Player player1, Player player2){
         System.out.println("-----------------");
         System.out.println("New Scores");

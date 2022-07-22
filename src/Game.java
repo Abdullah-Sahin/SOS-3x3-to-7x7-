@@ -1,5 +1,8 @@
 import Board.Board;
 import Board.BoardPrinter;
+import Exceptions.CoordinatesNotAvailableException;
+import Exceptions.InvalidDimensionException;
+import Exceptions.NoSuchCoordinateException;
 import Player.Player;
 import Score.ScorePrinter;
 
@@ -16,6 +19,10 @@ public class Game {
         this.board = board;
     }
 
+    /**
+     * Starts the game
+     * @throws InterruptedException when thread runs
+     */
     public void start() throws InterruptedException {
         Player[] byTurn = RandomArrangers.arrangeTurns(player1, player2);
         Player firstPlayer = byTurn[0];
@@ -43,11 +50,11 @@ public class Game {
                     Player.askToMark(firstPlayer, board);
                     firstPlayerMarked = true;
                 }
+                catch (CoordinatesNotAvailableException | InvalidDimensionException | NoSuchCoordinateException e){
+                    System.out.println(e.getMessage());
+                }
                 catch (InputMismatchException | NumberFormatException e){
                     System.out.println("Please type an integer");
-                }
-                catch (Exception e){
-                    System.out.println(e.getMessage());
                 }
             }
 
@@ -63,22 +70,27 @@ public class Game {
                     Player.askToMark(secondPlayer, board);
                     secondPlayerMarked = true;
                 }
-                catch (Exception e){
+                catch (CoordinatesNotAvailableException | InvalidDimensionException | NoSuchCoordinateException e){
                     System.out.println(e.getMessage());
+                }
+                catch (InputMismatchException | NumberFormatException e){
+                    System.out.println("Please type an integer");
                 }
             }
         }
 
+        System.out.println("GAME ENDED");
+
+        // Print winner
         if(firstPlayer.getScore() > secondPlayer.getScore()){
             System.out.println(firstPlayer.getName() + " won the game. Scores: " + firstPlayer.getScore() + "-" + secondPlayer.getScore());
         }
-        if(secondPlayer.getScore() > firstPlayer.getScore()){
+        else if(secondPlayer.getScore() > firstPlayer.getScore()){
             System.out.println(secondPlayer.getName() + " won the game. Scores: " + secondPlayer.getScore() + "-" + firstPlayer.getScore());
         }
         else{
             System.out.println("Draw. Scores: " + firstPlayer.getScore() + "-" + secondPlayer.getScore());
         }
-
 
     }
 
